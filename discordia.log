@@ -17,3 +17,24 @@
 2017-10-09 18:12:02 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
 2017-10-09 18:12:02 | [INFO]    | Shard 0 : Received HELLO (gateway-prd-main-2b3f)
 2017-10-09 18:12:02 | [INFO]    | Shard 0 : Received READY (gateway-prd-main-2b3f, discord-sessions-prd-1-2)
+2017-10-09 21:38:12 | [INFO]    | Discordia 2.1.0
+2017-10-09 21:38:12 | [INFO]    | Connecting to Discord...
+2017-10-09 21:38:13 | [INFO]    | Authenticated as Glitch Bot#7676
+2017-10-09 21:38:13 | [INFO]    | Launching shard 0 (1 out of 1)...
+2017-10-09 21:38:14 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2017-10-09 21:38:14 | [INFO]    | Shard 0 : Received HELLO (gateway-prd-main-71d4)
+2017-10-09 21:38:14 | [INFO]    | Shard 0 : Received READY (gateway-prd-main-71d4, discord-sessions-prd-1-11)
+2017-10-09 21:42:06 | [INFO]    | Discordia 2.1.0
+2017-10-09 21:42:06 | [INFO]    | Connecting to Discord...
+2017-10-09 21:42:06 | [INFO]    | Authenticated as Glitch Bot#7676
+2017-10-09 21:42:06 | [INFO]    | Launching shard 0 (1 out of 1)...
+2017-10-09 21:42:07 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2017-10-09 21:42:07 | [INFO]    | Shard 0 : Received HELLO (gateway-prd-main-gjm5)
+2017-10-09 21:42:07 | [INFO]    | Shard 0 : Received READY (gateway-prd-main-gjm5, discord-sessions-prd-1-1)
+2017-10-09 21:43:15 | [INFO]    | Discordia 2.1.0
+2017-10-09 21:43:15 | [INFO]    | Connecting to Discord...
+2017-10-09 21:43:16 | [INFO]    | Authenticated as Glitch Bot#7676
+2017-10-09 21:43:16 | [INFO]    | Launching shard 0 (1 out of 1)...
+2017-10-09 21:43:16 | [INFO]    | Shard 0 : Connected to wss://gateway.discord.gg
+2017-10-09 21:43:16 | [INFO]    | Shard 0 : Received HELLO (gateway-prd-main-2b3f)
+2017-10-09 21:43:16 | [INFO]    | Shard 0 : Received READY (gateway-prd-main-2b3f, discord-sessions-prd-1-10)
