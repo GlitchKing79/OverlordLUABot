@@ -1,4 +1,5 @@
 local fs = require('fs')
+local ffi = require('ffi')
 local ssl = require('openssl')
 local class = require('class')
 local enums = require('enums')
@@ -15,20 +16,15 @@ local format = string.format
 
 local Resolver = {}
 
-local int64_t, uint64_t, istype
-local function loadffi()
-	local ffi = require('ffi')
-	istype = ffi.istype
-	int64_t = ffi.typeof('int64_t')
-	uint64_t = ffi.typeof('uint64_t')
-end
+local istype = ffi.istype
+local int64_t = ffi.typeof('int64_t')
+local uint64_t = ffi.typeof('uint64_t')
 
 local function int(obj)
 	local t = type(obj)
 	if t == 'string' and tonumber(obj) then
 		return obj
 	elseif t == 'cdata' then
-		if not istype then loadffi() end
 		if istype(int64_t, obj) or istype(uint64_t, obj) then
 			return tostring(obj):match('%d*')
 		end
@@ -81,7 +77,7 @@ function Resolver.emojiId(obj)
 	elseif isInstance(obj, classes.Reaction) then
 		return obj.emojiId
 	end
-	return tostring(obj)
+	return int(obj)
 end
 
 function Resolver.guildId(obj)
@@ -107,6 +103,20 @@ function Resolver.messageIds(objs)
 	elseif type(objs) == 'table' then
 		for _, obj in pairs(objs) do
 			insert(ret, Resolver.messageId(obj))
+		end
+	end
+	return ret
+end
+
+function Resolver.roleIds(objs)
+	local ret = {}
+	if isInstance(objs, classes.Iterable) then
+		for obj in objs:iter() do
+			insert(ret, Resolver.roleId(obj))
+		end
+	elseif type(objs) == 'table' then
+		for _, obj in pairs(objs) do
+			insert(ret, Resolver.roleId(obj))
 		end
 	end
 	return ret

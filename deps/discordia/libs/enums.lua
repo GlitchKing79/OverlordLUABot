@@ -11,14 +11,14 @@ local function enum(tbl)
 			if call[k] then
 				return call[k]
 			else
-				return error('invalid enumeration: ' .. k)
+				return error('invalid enumeration: ' .. tostring(k))
 			end
 		end,
 		__index = function(_, k)
 			if tbl[k] then
 				return tbl[k]
 			else
-				return error('invalid enumeration: ' .. k)
+				return error('invalid enumeration: ' .. tostring(k))
 			end
 		end,
 		__pairs = function()
@@ -51,17 +51,22 @@ enums.channelType = enum {
 	voice    = 2,
 	group    = 3,
 	category = 4,
+	news     = 5,
 }
 
 enums.messageType = enum {
-	default           = 0,
-	recipientAdd      = 1,
-	recipientRemove   = 2,
-	call              = 3,
-	channelNameChange = 4,
-	channelIconchange = 5,
-	pinnedMessage     = 6,
-	memberJoin        = 7,
+	default                       = 0,
+	recipientAdd                  = 1,
+	recipientRemove               = 2,
+	call                          = 3,
+	channelNameChange             = 4,
+	channelIconchange             = 5,
+	pinnedMessage                 = 6,
+	memberJoin                    = 7,
+	premiumGuildSubscription      = 8,
+	premiumGuildSubscriptionTier1 = 9,
+	premiumGuildSubscriptionTier2 = 10,
+	premiumGuildSubscriptionTier3 = 11,
 }
 
 enums.relationshipType = enum {
@@ -72,9 +77,23 @@ enums.relationshipType = enum {
 	pendingOutgoing = 4,
 }
 
-enums.gameType = enum {
+enums.activityType = enum {
 	default   = 0,
 	streaming = 1,
+	listening = 2,
+}
+
+enums.status = enum {
+	online = 'online',
+	idle = 'idle',
+	doNotDisturb = 'dnd',
+	invisible = 'invisible',
+}
+
+enums.gameType = enum { -- NOTE: deprecated; use activityType
+	default   = 0,
+	streaming = 1,
+	listening = 2,
 }
 
 enums.verificationLevel = enum {
@@ -91,6 +110,13 @@ enums.explicitContentLevel = enum {
 	high   = 2,
 }
 
+enums.premiumTier = enum {
+	none  = 0,
+	tier1 = 1,
+	tier2 = 2,
+	tier3 = 3,
+}
+
 enums.permission = enum {
 	createInstantInvite = 0x00000001,
 	kickMembers         = 0x00000002,
@@ -100,6 +126,7 @@ enums.permission = enum {
 	manageGuild         = 0x00000020,
 	addReactions        = 0x00000040,
 	viewAuditLog        = 0x00000080,
+	prioritySpeaker     = 0x00000100,
 	readMessages        = 0x00000400,
 	sendMessages        = 0x00000800,
 	sendTextToSpeech    = 0x00001000,

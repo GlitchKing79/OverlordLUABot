@@ -23,6 +23,7 @@ local BOUNDARY3 = BOUNDARY2 .. '--'
 
 local JSON = 'application/json'
 local MULTIPART = f('multipart/form-data;boundary=%s', BOUNDARY1)
+local USER_AGENT = f('DiscordBot (%s, %s)', package.homepage, package.version)
 
 local majorRoutes = {guilds = true, channels = true, webhooks = true}
 local payloadRequired = {PUT = true, PATCH = true, POST = true}
@@ -37,7 +38,7 @@ local function parseErrors(ret, errors, key)
 			end
 		else
 			if key then
-				parseErrors(ret, v, f(k:find("^[%a_][%a%d_]*$") and '%s.%s' or '%s[%q]', key, k))
+				parseErrors(ret, v, f(k:find("^[%a_][%a%d_]*$") and '%s.%s' or tonumber(k) and '%s[%d]' or '%s[%q]', key, k))
 			else
 				parseErrors(ret, v, k)
 			end
@@ -54,7 +55,7 @@ local function route(method, endpoint)
 
 	-- special case for reactions
 	if endpoint:find('reactions') then
-		return 'reactions'
+		endpoint = endpoint:match('.*/reactions')
 	end
 
 	-- remove the ID from minor routes
@@ -109,13 +110,16 @@ local API = require('class')('API')
 
 function API:__init(client)
 	self._client = client
+	self._headers = {
+		{'User-Agent', USER_AGENT}
+	}
 	self._mutexes = setmetatable({}, mutexMeta)
 end
 
 function API:authenticate(token)
 	self._headers = {
 		{'Authorization', token},
-		{'User-Agent', f('DiscordBot (%s, %s)', package.homepage, package.version)},
+		{'User-Agent', USER_AGENT},
 	}
 	return self:getCurrentUser()
 end
@@ -124,7 +128,7 @@ function API:request(method, endpoint, payload, query, files)
 
 	local _, main = running()
 	if main then
-		return nil, 'Cannot make HTTP request outside of a coroutine'
+		return error('Cannot make HTTP request outside of a coroutine', 2)
 	end
 
 	local url = BASE_URL .. endpoint
@@ -473,6 +477,11 @@ function API:getGuildBans(guild_id) -- Guild:getBans
 	return self:request("GET", endpoint)
 end
 
+function API:getGuildBan(guild_id, user_id) -- Guild:getBan
+	local endpoint = f(endpoints.GUILD_BAN, guild_id, user_id)
+	return self:request("GET", endpoint)
+end
+
 function API:createGuildBan(guild_id, user_id, query) -- Guild:banUser
 	local endpoint = f(endpoints.GUILD_BAN, guild_id, user_id)
 	return self:request("PUT", endpoint, nil, query)
@@ -563,9 +572,9 @@ function API:modifyGuildEmbed(guild_id, payload) -- not exposed, maybe in the fu
 	return self:request("PATCH", endpoint, payload)
 end
 
-function API:getInvite(invite_code) -- Client:getInvite
+function API:getInvite(invite_code, query) -- Client:getInvite
 	local endpoint = f(endpoints.INVITE, invite_code)
-	return self:request("GET", endpoint)
+	return self:request("GET", endpoint, nil, query)
 end
 
 function API:deleteInvite(invite_code) -- Invite:delete
